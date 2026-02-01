@@ -38,7 +38,7 @@ Add badges from somewhere like: [https://turwar.my.id/](https://turwar.my.id/)
 ## Website Topup Demo⛓️‍💥
 
 Insert gif or link to demo
-turwarkop-store.my.id
+[https://turwar.my.id/](https://turwar.my.id/)
 ## Features🛠
 
 - 💎Topup Games
