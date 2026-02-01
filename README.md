@@ -26,7 +26,7 @@ Cukup kirim ID & Server, pesanan langsung diproses tanpa perlu login akun!
 ## Team Turnamen Warkop📝
 ## Badges📍
 
-Add badges from somewhere like: [topup-turwarkop.my.id](https://shields.io/)
+Add badges from somewhere like: [https://turwar.my.id/](https://turwar.my.id/)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
