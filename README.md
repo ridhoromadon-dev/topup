@@ -11,7 +11,7 @@ Cukup kirim ID & Server, pesanan langsung diproses tanpa perlu login akun!
 
 ✅ 100% aman & terpercaya
 
-✅ Bisa via Dana / OVO / GoPay / QRIS
+✅ Bisa via Dana / OVO / GoPay / QRIS & Payment Gateway
 
 
 ## Hubungi🍵
