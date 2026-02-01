@@ -48,14 +48,6 @@ Insert gif or link to demo
 - 💻Topup Livestreaming
 - 📲Beli Data/kouta
 
-
-## Tech Stack📊
-
-**⚙️Client :** React, Redux, TailwindCSS
-
-**⚙️Server:** Node, Express
-
-
 ## Support📩
 
 Support : ridhoromadon958@gmail.com
