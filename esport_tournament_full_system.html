@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon-blue: #00d4ff;
+    --neon-purple: #b400ff;
+    --neon-pink: #ff0099;
+    --bg-dark: #050510;
+    --bg-card: rgba(10,10,30,0.85);
+    --bg-card2: rgba(15,15,40,0.9);
+    --border-neon: rgba(0,212,255,0.3);
+    --text-primary: #e8f4ff;
+    --text-secondary: rgba(200,220,255,0.6);
+    --gold: #ffd700;
+    --silver: #c0c0c0;
+    --bronze: #cd7f32;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg-dark);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .orbitron { font-family: 'Orbitron', monospace; }
+
+  /* BG GRID */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* NAVBAR */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 2rem;
+    height:64px;
+    background: rgba(5,5,16,0.92);
+    border-bottom: 1px solid var(--border-neon);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family:'Orbitron',monospace;
+    font-size:1.1rem;
+    font-weight:900;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing:2px;
+  }
+  .nav-links { display:flex; gap:1.5rem; }
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration:none;
+    font-size:0.82rem;
+    font-weight:500;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover { color: var(--neon-blue); }
+  .nav-actions { display:flex; gap:0.75rem; }
+  .btn-outline {
+    padding:0.4rem 1rem;
+    border:1px solid var(--neon-blue);
+    background:transparent;
+    color:var(--neon-blue);
+    font-family:'Poppins',sans-serif;
+    font-size:0.78rem;
+    font-weight:600;
+    letter-spacing:1px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:all 0.2s;
+  }
+  .btn-outline:hover { background:var(--neon-blue); color:#000; }
+  .btn-primary {
+    padding:0.4rem 1rem;
+    border:none;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color:#fff;
+    font-family:'Poppins',sans-serif;
+    font-size:0.78rem;
+    font-weight:600;
+    letter-spacing:1px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:opacity 0.2s;
+  }
+  .btn-primary:hover { opacity:0.85; }
+
+  /* PAGES */
+  .page { display:none; min-height:100vh; padding-top:64px; position:relative; z-index:1; }
+  .page.active { display:block; }
+
+  /* ===== LANDING PAGE ===== */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:2rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute;
+    width:600px; height:600px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    top:50%; left:50%; transform:translate(-50%,-50%);
+    pointer-events:none;
+  }
+  .hero-badge {
+    display:inline-block;
+    padding:0.3rem 1rem;
+    border:1px solid rgba(0,212,255,0.4);
+    background: rgba(0,212,255,0.08);
+    color:var(--neon-blue);
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    border-radius:2px;
+    margin-bottom:1.5rem;
+  }
+  .hero-title {
+    font-family:'Orbitron',monospace;
+    font-size:clamp(2rem, 6vw, 4.5rem);
+    font-weight:900;
+    line-height:1.1;
+    margin-bottom:1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 50%, var(--neon-purple) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero-sub {
+    font-size:1rem;
+    color:var(--text-secondary);
+    max-width:500px;
+    margin:0 auto 2rem;
+    line-height:1.7;
+  }
+  .hero-clock {
+    font-family:'Orbitron',monospace;
+    font-size:2rem;
+    font-weight:700;
+    color:var(--neon-blue);
+    letter-spacing:4px;
+    margin-bottom:2rem;
+    text-shadow: 0 0 20px rgba(0,212,255,0.5);
+  }
+  .hero-stats {
+    display:flex; gap:2rem; margin-bottom:2.5rem; flex-wrap:wrap; justify-content:center;
+  }
+  .hero-stat {
+    text-align:center;
+    padding:1rem 1.5rem;
+    background:var(--bg-card);
+    border:1px solid var(--border-neon);
+    border-radius:8px;
+    min-width:120px;
+  }
+  .hero-stat .num {
+    font-family:'Orbitron',monospace;
+    font-size:1.8rem;
+    font-weight:700;
+    color:var(--neon-blue);
+  }
+  .hero-stat .lbl { font-size:0.72rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; }
+  .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+  .btn-hero {
+    padding:0.85rem 2rem;
+    font-family:'Poppins',sans-serif;
+    font-size:0.9rem;
+    font-weight:600;
+    letter-spacing:1px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:all 0.2s;
+    text-transform:uppercase;
+  }
+  .btn-hero-primary {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border:none; color:#fff;
+  }
+  .btn-hero-primary:hover { transform:scale(1.03); }
+  .btn-hero-outline {
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.2);
+    color:#fff;
+  }
+  .btn-hero-outline:hover { border-color:var(--neon-blue); color:var(--neon-blue); }
+
+  /* SECTIONS */
+  section { padding:4rem 2rem; max-width:1100px; margin:0 auto; }
+  .section-title {
+    font-family:'Orbitron',monospace;
+    font-size:1.5rem;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:0.5rem;
+    color:var(--text-primary);
+  }
+  .section-line {
+    width:60px; height:2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    margin:0 auto 2.5rem;
+    border-radius:2px;
+  }
+
+  /* TEAMS LIST */
+  .teams-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap:1rem;
+  }
+  .team-card {
+    background:var(--bg-card);
+    border:1px solid var(--border-neon);
+    border-radius:8px;
+    padding:1rem;
+    display:flex; align-items:center; gap:0.75rem;
+    transition:border-color 0.2s;
+  }
+  .team-card:hover { border-color:var(--neon-blue); }
+  .team-avatar {
+    width:40px; height:40px; border-radius:50%;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Orbitron',monospace;
+    font-weight:700; font-size:0.9rem; color:#fff;
+    flex-shrink:0;
+  }
+  .team-info .name { font-weight:600; font-size:0.9rem; }
+  .team-info .detail { font-size:0.72rem; color:var(--text-secondary); }
+
+  /* LEADERBOARD */
+  .lb-table { width:100%; border-collapse:collapse; }
+  .lb-table th {
+    text-align:left; padding:0.75rem 1rem;
+    font-size:0.72rem; letter-spacing:2px; text-transform:uppercase;
+    color:var(--text-secondary);
+    border-bottom:1px solid var(--border-neon);
+    font-family:'Orbitron',monospace;
+  }
+  .lb-table td { padding:0.75rem 1rem; font-size:0.88rem; border-bottom:1px solid rgba(0,212,255,0.08); }
+  .lb-table tr:hover td { background:rgba(0,212,255,0.04); }
+  .rank-1 { color:var(--gold); font-weight:700; font-family:'Orbitron',monospace; }
+  .rank-2 { color:var(--silver); font-weight:700; font-family:'Orbitron',monospace; }
+  .rank-3 { color:var(--bronze); font-weight:700; font-family:'Orbitron',monospace; }
+  .rank-n { color:var(--text-secondary); font-family:'Orbitron',monospace; }
+  .badge-level {
+    display:inline-block;
+    padding:0.15rem 0.5rem;
+    border-radius:3px;
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .lv-gold { background:rgba(255,215,0,0.15); color:var(--gold); border:1px solid rgba(255,215,0,0.3); }
+  .lv-silver { background:rgba(192,192,192,0.15); color:var(--silver); border:1px solid rgba(192,192,192,0.3); }
+  .lv-bronze { background:rgba(205,127,50,0.15); color:var(--bronze); border:1px solid rgba(205,127,50,0.3); }
+
+  /* SPONSORS */
+  .sponsors { display:flex; gap:2rem; flex-wrap:wrap; justify-content:center; align-items:center; }
+  .sponsor-tag {
+    padding:0.6rem 1.5rem;
+    background:var(--bg-card);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:6px;
+    font-weight:600;
+    font-size:0.85rem;
+    color:var(--text-secondary);
+    letter-spacing:2px;
+  }
+
+  /* ===== AUTH PAGES ===== */
+  .auth-wrap {
+    min-height:calc(100vh - 64px);
+    display:flex; align-items:center; justify-content:center;
+    padding:2rem;
+  }
+  .auth-card {
+    background:var(--bg-card2);
+    border:1px solid var(--border-neon);
+    border-radius:12px;
+    padding:2.5rem;
+    width:100%; max-width:420px;
+    position:relative;
+    overflow:hidden;
+  }
+  .auth-card::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+  }
+  .auth-title {
+    font-family:'Orbitron',monospace;
+    font-size:1.3rem; font-weight:700;
+    text-align:center; margin-bottom:0.5rem;
+  }
+  .auth-sub { text-align:center; color:var(--text-secondary); font-size:0.82rem; margin-bottom:2rem; }
+  .form-group { margin-bottom:1.2rem; }
+  .form-label { display:block; font-size:0.75rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--text-secondary); margin-bottom:0.4rem; }
+  .form-input {
+    width:100%; padding:0.7rem 1rem;
+    background:rgba(0,0,0,0.4);
+    border:1px solid rgba(0,212,255,0.2);
+    border-radius:6px;
+    color:var(--text-primary);
+    font-family:'Poppins',sans-serif;
+    font-size:0.88rem;
+    outline:none;
+    transition:border-color 0.2s;
+  }
+  .form-input:focus { border-color:var(--neon-blue); }
+  .form-input::placeholder { color:rgba(200,220,255,0.3); }
+  .btn-form {
+    width:100%; padding:0.85rem;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border:none; border-radius:6px;
+    color:#fff;
+    font-family:'Poppins',sans-serif;
+    font-size:0.9rem; font-weight:600;
+    letter-spacing:1px; text-transform:uppercase;
+    cursor:pointer;
+    transition:opacity 0.2s;
+    margin-top:0.5rem;
+  }
+  .btn-form:hover { opacity:0.85; }
+  .auth-switch { text-align:center; margin-top:1.5rem; font-size:0.82rem; color:var(--text-secondary); }
+  .auth-switch a { color:var(--neon-blue); cursor:pointer; text-decoration:none; }
+  .auth-id-box {
+    background:rgba(0,212,255,0.05);
+    border:1px solid rgba(0,212,255,0.3);
+    border-radius:8px;
+    padding:1.5rem;
+    text-align:center;
+    margin:1.5rem 0;
+  }
+  .auth-id-box .id-label { font-size:0.75rem; color:var(--text-secondary); letter-spacing:2px; text-transform:uppercase; margin-bottom:0.5rem; }
+  .auth-id-box .id-value { font-family:'Orbitron',monospace; font-size:2rem; font-weight:700; color:var(--neon-blue); letter-spacing:4px; }
+
+  /* ===== DASHBOARD USER ===== */
+  .dashboard { padding:2rem; max-width:1100px; margin:0 auto; }
+  .dash-header { display:flex; align-items:center; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
+  .dash-avatar {
+    width:64px; height:64px; border-radius:50%;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Orbitron',monospace;
+    font-size:1.4rem; font-weight:900; color:#fff;
+    flex-shrink:0;
+    position:relative;
+  }
+  .dash-avatar .upload-btn {
+    position:absolute; bottom:0; right:0;
+    width:20px; height:20px;
+    background:var(--neon-blue);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font-size:10px;
+    color:#000;
+  }
+  .dash-name { font-family:'Orbitron',monospace; font-size:1.1rem; font-weight:700; }
+  .dash-meta { font-size:0.8rem; color:var(--text-secondary); }
+  .dash-id { font-size:0.75rem; color:var(--neon-blue); font-family:'Orbitron',monospace; letter-spacing:2px; }
+  .dash-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-bottom:2rem; }
+  .dash-stat {
+    background:var(--bg-card);
+    border:1px solid var(--border-neon);
+    border-radius:8px;
+    padding:1.2rem;
+    text-align:center;
+  }
+  .dash-stat .dval { font-family:'Orbitron',monospace; font-size:1.6rem; font-weight:700; color:var(--neon-blue); }
+  .dash-stat .dlbl { font-size:0.72rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-top:0.25rem; }
+  .win-bar { height:8px; background:rgba(0,212,255,0.1); border-radius:4px; overflow:hidden; margin-top:0.5rem; }
+  .win-fill { height:100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple)); border-radius:4px; }
+
+  /* TABS */
+  .tabs { display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+  .tab {
+    padding:0.5rem 1.2rem;
+    background:transparent;
+    border:1px solid rgba(0,212,255,0.2);
+    border-radius:4px;
+    color:var(--text-secondary);
+    font-family:'Poppins',sans-serif;
+    font-size:0.8rem;
+    font-weight:500;
+    cursor:pointer;
+    transition:all 0.2s;
+    letter-spacing:0.5px;
+  }
+  .tab.active, .tab:hover { background:var(--neon-blue); border-color:var(--neon-blue); color:#000; }
+
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  /* TABLE */
+  .data-table { width:100%; border-collapse:collapse; }
+  .data-table th { text-align:left; padding:0.6rem 0.75rem; font-size:0.72rem; letter-spacing:2px; color:var(--text-secondary); border-bottom:1px solid var(--border-neon); font-family:'Orbitron',monospace; text-transform:uppercase; }
+  .data-table td { padding:0.7rem 0.75rem; font-size:0.85rem; border-bottom:1px solid rgba(0,212,255,0.06); }
+  .status-badge {
+    display:inline-block; padding:0.2rem 0.6rem;
+    border-radius:3px; font-size:0.7rem; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+  }
+  .s-win { background:rgba(0,255,128,0.1); color:#00ff80; border:1px solid rgba(0,255,128,0.2); }
+  .s-lose { background:rgba(255,50,50,0.1); color:#ff5050; border:1px solid rgba(255,50,50,0.2); }
+  .s-pending { background:rgba(255,200,0,0.1); color:#ffc800; border:1px solid rgba(255,200,0,0.2); }
+  .s-success { background:rgba(0,255,128,0.1); color:#00ff80; border:1px solid rgba(0,255,128,0.2); }
+  .s-failed { background:rgba(255,50,50,0.1); color:#ff5050; border:1px solid rgba(255,50,50,0.2); }
+
+  /* PAYMENT */
+  .pay-card {
+    background:var(--bg-card);
+    border:1px solid var(--border-neon);
+    border-radius:10px;
+    padding:1.5rem;
+  }
+  .pay-title { font-family:'Orbitron',monospace; font-size:0.9rem; margin-bottom:1rem; color:var(--neon-blue); }
+  .pay-amount { font-family:'Orbitron',monospace; font-size:1.8rem; font-weight:700; margin-bottom:1rem; }
+  .pay-methods { display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap; }
+  .pay-method {
+    padding:0.5rem 1rem;
+    border:1px solid rgba(0,212,255,0.2);
+    border-radius:6px;
+    background:transparent;
+    color:var(--text-secondary);
+    font-family:'Poppins',sans-serif;
+    font-size:0.8rem;
+    cursor:pointer;
+    transition:all 0.2s;
+  }
+  .pay-method.selected { border-color:var(--neon-blue); color:var(--neon-blue); background:rgba(0,212,255,0.05); }
+
+  /* ===== ADMIN ===== */
+  .admin-sidebar {
+    position:fixed; top:64px; left:0; bottom:0; width:220px;
+    background:rgba(5,5,20,0.97);
+    border-right:1px solid var(--border-neon);
+    z-index:100;
+    overflow-y:auto;
+    padding:1rem 0;
+  }
+  .admin-menu-item {
+    display:block; padding:0.75rem 1.5rem;
+    color:var(--text-secondary);
+    font-size:0.82rem;
+    font-weight:500;
+    cursor:pointer;
+    transition:all 0.2s;
+    border-left:2px solid transparent;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .admin-menu-item:hover, .admin-menu-item.active {
+    color:var(--neon-blue);
+    border-left-color:var(--neon-blue);
+    background:rgba(0,212,255,0.05);
+  }
+  .admin-content { margin-left:220px; padding:2rem; min-height:calc(100vh - 64px); }
+  .admin-panel { display:none; }
+  .admin-panel.active { display:block; }
+  .admin-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; margin-bottom:2rem; }
+  .admin-stat { background:var(--bg-card); border:1px solid var(--border-neon); border-radius:8px; padding:1.2rem; }
+  .admin-stat .aval { font-family:'Orbitron',monospace; font-size:1.8rem; font-weight:700; }
+  .admin-stat .albl { font-size:0.72rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; }
+  .admin-stat .blue { color:var(--neon-blue); }
+  .admin-stat .purple { color:var(--neon-purple); }
+  .admin-stat .pink { color:var(--neon-pink); }
+  .admin-stat .gold { color:var(--gold); }
+
+  /* THEME SWITCHER */
+  .theme-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:1rem; }
+  .theme-option {
+    padding:1.5rem 1rem;
+    border-radius:8px;
+    text-align:center;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:all 0.2s;
+    font-weight:600;
+    font-size:0.85rem;
+  }
+  .theme-option.selected { border-color:var(--neon-blue); }
+  .th-dark { background:#0a0a0a; color:#00d4ff; }
+  .th-purple { background:#1a0033; color:#b400ff; }
+  .th-snow { background:linear-gradient(135deg,#e8f4ff,#fff); color:#004080; }
+  .th-ramadan { background:linear-gradient(135deg,#1a1a00,#003300); color:#ffd700; }
+  .th-white { background:#fff; color:#333; }
+
+  /* TOAST */
+  .toast-container { position:fixed; top:80px; right:1rem; z-index:9999; display:flex; flex-direction:column; gap:0.5rem; }
+  .toast {
+    background:rgba(10,10,30,0.95);
+    border:1px solid var(--neon-blue);
+    border-left:4px solid var(--neon-blue);
+    border-radius:6px;
+    padding:0.75rem 1rem;
+    min-width:260px;
+    font-size:0.85rem;
+    color:var(--text-primary);
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,212,255,0.2);
+  }
+  .toast.success { border-color:#00ff80; }
+  .toast.error { border-color:#ff5050; }
+  @keyframes slideIn { from { transform:translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+
+  /* LEVEL BADGE */
+  .level-badge {
+    display:inline-flex; align-items:center; gap:0.4rem;
+    padding:0.3rem 0.8rem;
+    border-radius:20px;
+    font-size:0.78rem;
+    font-weight:700;
+    font-family:'Orbitron',monospace;
+    letter-spacing:1px;
+  }
+  .level-bronze { background:rgba(205,127,50,0.15); color:var(--bronze); border:1px solid var(--bronze); }
+  .level-silver { background:rgba(192,192,192,0.15); color:var(--silver); border:1px solid var(--silver); }
+  .level-gold { background:rgba(255,215,0,0.15); color:var(--gold); border:1px solid var(--gold); }
+
+  .card-section {
+    background:var(--bg-card);
+    border:1px solid var(--border-neon);
+    border-radius:10px;
+    padding:1.5rem;
+    margin-bottom:1.5rem;
+  }
+  .card-section-title { font-family:'Orbitron',monospace; font-size:0.85rem; color:var(--neon-blue); letter-spacing:2px; text-transform:uppercase; margin-bottom:1rem; }
+
+  .progress-wrap { margin-bottom:0.5rem; }
+  .progress-bar { height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:3px; }
+
+  .notif-dot { width:8px; height:8px; border-radius:50%; background:var(--neon-pink); display:inline-block; margin-left:0.4rem; }
+
+  footer {
+    background:rgba(5,5,16,0.95);
+    border-top:1px solid var(--border-neon);
+    padding:2rem;
+    text-align:center;
+    color:var(--text-secondary);
+    font-size:0.8rem;
+    letter-spacing:1px;
+  }
+
+  @media(max-width:768px) {
+    .admin-sidebar { display:none; }
+    .admin-content { margin-left:0; }
+    .nav-links { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo orbitron">⚡ NEXUS CUP</div>
+  <div class="nav-links">
+    <a onclick="scrollSection('teams')">Teams</a>
+    <a onclick="scrollSection('leaderboard')">Leaderboard</a>
+    <a onclick="scrollSection('sponsors')">Sponsor</a>
+    <a onclick="showPage('landing')">Kontak</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-outline" onclick="showPage('login')">Login</button>
+    <button class="btn-primary" onclick="showPage('register')">Daftar</button>
+  </div>
+</nav>
+
+<!-- ===== LANDING PAGE ===== -->
+<div id="page-landing" class="page active">
+  <div class="hero">
+    <div class="hero-badge">⚡ Season 4 — 2025</div>
+    <h1 class="hero-title">NEXUS CUP<br>TOURNAMENT</h1>
+    <p class="hero-sub">Turnamen e-sport terbesar Indonesia. Buktikan dominasimu, raih puncak leaderboard, dan jadilah legenda.</p>
+    <div class="hero-clock" id="clock">00:00:00</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num" id="totalSlots">32</div><div class="lbl">Total Slot</div></div>
+      <div class="hero-stat"><div class="num" id="registeredTeams">12</div><div class="lbl">Sudah Daftar</div></div>
+      <div class="hero-stat"><div class="num" id="slotsLeft">20</div><div class="lbl">Sisa Slot</div></div>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-hero btn-hero-primary" onclick="showPage('register')">Daftar Sekarang</button>
+      <button class="btn-hero btn-hero-outline" onclick="scrollSection('leaderboard')">Lihat Leaderboard</button>
+    </div>
+  </div>
+
+  <!-- TEAMS -->
+  <section id="teams">
+    <div class="section-title orbitron">Tim Terdaftar</div>
+    <div class="section-line"></div>
+    <div class="teams-grid" id="teamsGrid"></div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section id="leaderboard">
+    <div class="section-title orbitron">Leaderboard Top 10</div>
+    <div class="section-line"></div>
+    <div class="card-section" style="padding:0; overflow:hidden;">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th>Rank</th><th>Team</th><th>Level</th><th>Win Rate</th><th>Total Win</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SPONSORS -->
+  <section id="sponsors" style="text-align:center;">
+    <div class="section-title orbitron">Sponsor & Support</div>
+    <div class="section-line"></div>
+    <div class="sponsors">
+      <div class="sponsor-tag">LOGITECH</div>
+      <div class="sponsor-tag">RAZER</div>
+      <div class="sponsor-tag">NVIDIA</div>
+      <div class="sponsor-tag">INDIHOME</div>
+      <div class="sponsor-tag">TOKOPEDIA</div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="orbitron" style="font-size:0.9rem; color:var(--neon-blue); margin-bottom:0.5rem;">NEXUS CUP TOURNAMENT</p>
+    <p>© 2025 Nexus Esports Indonesia. All rights reserved.</p>
+    <p style="margin-top:0.5rem;">Dibuat dengan ⚡ untuk para pejuang digital</p>
+  </footer>
+</div>
+
+<!-- ===== REGISTER ===== -->
+<div id="page-register" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-title">Daftar Tim</div>
+      <div class="auth-sub">Bergabung ke NEXUS CUP Season 4</div>
+      <div class="form-group">
+        <label class="form-label">Nama Tim</label>
+        <input class="form-input" id="regTeam" placeholder="Shadow Wolves" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nama Kapten</label>
+        <input class="form-input" id="regCaptain" placeholder="Nama lengkap kapten" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nomor HP Kapten</label>
+        <input class="form-input" id="regPhone" placeholder="08xxxxxxxxxx" type="tel">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="regPass" placeholder="Minimal 6 karakter" type="password">
+      </div>
+      <button class="btn-form" onclick="doRegister()">Daftar Sekarang</button>
+      <div class="auth-switch">Sudah punya akun? <a onclick="showPage('login')">Login di sini</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REGISTER SUCCESS ===== -->
+<div id="page-reg-success" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-title" style="color:var(--neon-blue);">✓ Pendaftaran Berhasil!</div>
+      <div class="auth-sub">Simpan ID tim kamu baik-baik</div>
+      <div class="auth-id-box">
+        <div class="id-label">ID Tim Kamu</div>
+        <div class="id-value" id="generatedId">DKDXAH</div>
+      </div>
+      <p style="text-align:center; font-size:0.82rem; color:var(--text-secondary); margin-bottom:1.5rem;">ID ini digunakan untuk login dan verifikasi. Jangan bagikan ke siapapun!</p>
+      <button class="btn-form" onclick="showPage('dashboard')">Masuk Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOGIN ===== -->
+<div id="page-login" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-title">Login</div>
+      <div class="auth-sub">Masuk ke dashboard timmu</div>
+      <div class="form-group">
+        <label class="form-label">Nama Tim / ID Tim</label>
+        <input class="form-input" id="loginId" placeholder="Nama tim atau ID" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="loginPass" placeholder="Password" type="password">
+      </div>
+      <button class="btn-form" onclick="doLogin()">Login</button>
+      <div style="text-align:center; margin-top:1rem;">
+        <a onclick="showPage('admin')" style="color:rgba(0,212,255,0.4); cursor:pointer; font-size:0.75rem; text-decoration:none;">Admin Login →</a>
+      </div>
+      <div class="auth-switch">Belum punya akun? <a onclick="showPage('register')">Daftar sekarang</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD USER ===== -->
+<div id="page-dashboard" class="page">
+  <div class="dashboard">
+    <div class="dash-header">
+      <div class="dash-avatar" id="userAvatar">
+        SW
+        <div class="upload-btn" onclick="showToast('Upload logo: fitur aktif!','success')">+</div>
+      </div>
+      <div>
+        <div class="dash-name" id="userName">Shadow Wolves</div>
+        <div class="dash-meta" id="userCaptain">Kapten: Alex Ranger</div>
+        <div class="dash-id" id="userId">ID: DKDXAH</div>
+        <div style="margin-top:0.4rem;"><span class="level-badge level-silver" id="userLevel">🥈 SILVER</span></div>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:0.75rem;">
+        <button class="btn-outline" onclick="showTab('profile')">Edit Profil</button>
+        <button class="btn-outline" onclick="doLogout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-stat"><div class="dval">7</div><div class="dlbl">Total Match</div></div>
+      <div class="dash-stat">
+        <div class="dval">71%</div>
+        <div class="dlbl">Win Rate</div>
+        <div class="win-bar"><div class="win-fill" style="width:71%"></div></div>
+      </div>
+      <div class="dash-stat"><div class="dval">5</div><div class="dlbl">Total Win</div></div>
+      <div class="dash-stat"><div class="dval">2</div><div class="dlbl">Total Lose</div></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('overview')">Overview</button>
+      <button class="tab" onclick="showTab('history')">Match History</button>
+      <button class="tab" onclick="showTab('payment')">Pembayaran</button>
+      <button class="tab" onclick="showTab('profile')">Edit Profil</button>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="tab-panel active" id="tab-overview">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+        <div class="card-section">
+          <div class="card-section-title">Performa Tim</div>
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.3rem;"><span>Win Rate</span><span style="color:var(--neon-blue);">71%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:71%; background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.3rem;"><span>Level Progress</span><span style="color:var(--gold);">Silver → Gold</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:55%; background:linear-gradient(90deg,var(--silver),var(--gold));"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-section">
+          <div class="card-section-title">Status Turnamen</div>
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem;">NEXUS CUP Season 4 — Grup B</p>
+          <p style="font-size:0.82rem;">Posisi: <span style="color:var(--neon-blue); font-weight:600;">#3 Grup</span></p>
+          <p style="font-size:0.82rem; margin-top:0.4rem;">Match Berikut: <span style="color:var(--gold);">vs Dark Phantom</span></p>
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.4rem;">Jadwal: 28 April 2025 · 19:00 WIB</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCH HISTORY -->
+    <div class="tab-panel" id="tab-history">
+      <div class="card-section" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead><tr><th>Match</th><th>Lawan</th><th>Hasil</th><th>Tanggal</th></tr></thead>
+          <tbody>
+            <tr><td>#7</td><td>Iron Claws</td><td><span class="status-badge s-win">WIN</span></td><td>24 Apr</td></tr>
+            <tr><td>#6</td><td>Red Phoenix</td><td><span class="status-badge s-win">WIN</span></td><td>20 Apr</td></tr>
+            <tr><td>#5</td><td>Cyber Wolves</td><td><span class="status-badge s-lose">LOSE</span></td><td>17 Apr</td></tr>
+            <tr><td>#4</td><td>Ghost Unit</td><td><span class="status-badge s-win">WIN</span></td><td>14 Apr</td></tr>
+            <tr><td>#3</td><td>Storm Riders</td><td><span class="status-badge s-win">WIN</span></td><td>10 Apr</td></tr>
+            <tr><td>#2</td><td>Dark Matter</td><td><span class="status-badge s-lose">LOSE</span></td><td>7 Apr</td></tr>
+            <tr><td>#1</td><td>Neon Vipers</td><td><span class="status-badge s-win">WIN</span></td><td>3 Apr</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="tab-panel" id="tab-payment">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div class="pay-card">
+          <div class="pay-title">Bayar Registrasi</div>
+          <div class="pay-amount">Rp 50.000</div>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:1rem;">NEXUS CUP Season 4 — Entry Fee</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:1px;">Metode Pembayaran</div>
+          <div class="pay-methods">
+            <button class="pay-method selected" onclick="selectPayMethod(this,'Manual Transfer')">Manual Transfer</button>
+            <button class="pay-method" onclick="selectPayMethod(this,'Sakurupiah')">Sakurupiah</button>
+          </div>
+          <div id="payInfo" style="background:rgba(0,212,255,0.05); border:1px solid rgba(0,212,255,0.2); border-radius:6px; padding:0.75rem; font-size:0.82rem; margin-bottom:1rem;">
+            Transfer ke: <strong>BCA 1234567890</strong><br>a.n NEXUS ESPORTS INDONESIA<br>Wajib upload bukti transfer
+          </div>
+          <button class="btn-form" style="padding:0.65rem;" onclick="doPayment()">Konfirmasi Pembayaran</button>
+        </div>
+        <div class="card-section">
+          <div class="card-section-title">Riwayat Pembayaran</div>
+          <table class="data-table">
+            <thead><tr><th>Tanggal</th><th>Jumlah</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>3 Apr</td><td>Rp 50.000</td><td><span class="status-badge s-success">SUCCESS</span></td></tr>
+              <tr><td>10 Mar</td><td>Rp 50.000</td><td><span class="status-badge s-success">SUCCESS</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT PROFILE -->
+    <div class="tab-panel" id="tab-profile">
+      <div class="card-section" style="max-width:480px;">
+        <div class="card-section-title">Edit Profil Tim</div>
+        <div class="form-group">
+          <label class="form-label">Nama Tim</label>
+          <input class="form-input" id="editTeam" value="Shadow Wolves" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nama Kapten</label>
+          <input class="form-input" id="editCaptain" value="Alex Ranger" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instagram Kapten</label>
+          <input class="form-input" id="editIg" value="@alexranger_id" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gmail</label>
+          <input class="form-input" id="editGmail" value="alexranger@gmail.com" type="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Logo Tim</label>
+          <input class="form-input" type="file" accept="image/*" onchange="showToast('Logo berhasil diupload!','success')">
+        </div>
+        <button class="btn-form" style="padding:0.65rem;" onclick="saveProfile()">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD ===== -->
+<div id="page-admin" class="page">
+  <div class="admin-sidebar">
+    <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--border-neon); margin-bottom:0.5rem;">
+      <div class="orbitron" style="font-size:0.75rem; color:var(--neon-blue); letter-spacing:2px;">ADMIN PANEL</div>
+    </div>
+    <a class="admin-menu-item active" onclick="showAdminPanel('overview')">📊 Overview</a>
+    <a class="admin-menu-item" onclick="showAdminPanel('users')">👥 Data User</a>
+    <a class="admin-menu-item" onclick="showAdminPanel('payment')">💳 Pembayaran</a>
+    <a class="admin-menu-item" onclick="showAdminPanel('match')">🎮 Match System</a>
+    <a class="admin-menu-item" onclick="showAdminPanel('level')">🏆 Level System</a>
+    <a class="admin-menu-item" onclick="showAdminPanel('theme')">🎨 Theme</a>
+    <a class="admin-menu-item" onclick="showAdminPanel('notif')">🔔 Notifikasi</a>
+    <div style="border-top:1px solid var(--border-neon); margin-top:1rem; padding-top:0.5rem;">
+      <a class="admin-menu-item" onclick="showPage('landing')">← Back to Site</a>
+    </div>
+  </div>
+  <div class="admin-content">
+
+    <!-- OVERVIEW -->
+    <div class="admin-panel active" id="admin-overview">
+      <div style="margin-bottom:1.5rem;">
+        <div class="orbitron" style="font-size:1.2rem; font-weight:700;">Dashboard Admin</div>
+        <div style="color:var(--text-secondary); font-size:0.82rem;">NEXUS CUP Season 4 — Monitoring</div>
+      </div>
+      <div class="admin-grid">
+        <div class="admin-stat"><div class="aval blue">12</div><div class="albl">Tim Terdaftar</div></div>
+        <div class="admin-stat"><div class="aval purple">8</div><div class="albl">Pembayaran Sukses</div></div>
+        <div class="admin-stat"><div class="aval gold">3</div><div class="albl">Pending Verif</div></div>
+        <div class="admin-stat"><div class="aval pink">20</div><div class="albl">Slot Tersisa</div></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div class="card-section">
+          <div class="card-section-title">Distribusi Level</div>
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.3rem;"><span style="color:var(--gold);">Gold</span><span>3 tim</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:25%; background:var(--gold);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.3rem;"><span style="color:var(--silver);">Silver</span><span>5 tim</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:42%; background:var(--silver);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.3rem;"><span style="color:var(--bronze);">Bronze</span><span>4 tim</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:33%; background:var(--bronze);"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-section">
+          <div class="card-section-title">Win Rate Chart</div>
+          <canvas id="adminChart" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="admin-panel" id="admin-users">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div class="orbitron" style="font-size:1.1rem; font-weight:700;">Data User</div>
+        <button class="btn-primary" onclick="exportPDF()">⬇ Export PDF</button>
+      </div>
+      <div class="card-section" style="padding:0; overflow:hidden; overflow-x:auto;">
+        <table class="data-table" style="min-width:700px;">
+          <thead>
+            <tr><th>ID</th><th>Nama Tim</th><th>Kapten</th><th>No. HP</th><th>Instagram</th><th>Level</th><th>Status</th></tr>
+          </thead>
+          <tbody id="adminUserTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAYMENT ADMIN -->
+    <div class="admin-panel" id="admin-payment">
+      <div class="orbitron" style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">Verifikasi Pembayaran</div>
+      <div class="card-section" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead><tr><th>Tim</th><th>Jumlah</th><th>Metode</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody id="adminPayTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MATCH SYSTEM -->
+    <div class="admin-panel" id="admin-match">
+      <div class="orbitron" style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">Match System</div>
+      <div class="card-section" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead><tr><th>Match</th><th>Tim A</th><th>Tim B</th><th>Set Hasil</th></tr></thead>
+          <tbody id="adminMatchTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LEVEL SYSTEM -->
+    <div class="admin-panel" id="admin-level">
+      <div class="orbitron" style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">Kelola Level Tim</div>
+      <div class="card-section" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead><tr><th>Tim</th><th>Level Saat Ini</th><th>Ubah Level</th></tr></thead>
+          <tbody id="adminLevelTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- THEME -->
+    <div class="admin-panel" id="admin-theme">
+      <div class="orbitron" style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">Ganti Tema Website</div>
+      <div class="theme-grid" id="themeGrid">
+        <div class="theme-option th-dark selected" onclick="setTheme(this,'dark')">🌑 Gelap<br><small>Dark Neon</small></div>
+        <div class="theme-option th-purple" onclick="setTheme(this,'purple')">🟣 Ungu<br><small>Purple Storm</small></div>
+        <div class="theme-option th-snow" onclick="setTheme(this,'snow')">❄️ Salju<br><small>Winter Ice</small></div>
+        <div class="theme-option th-ramadan" onclick="setTheme(this,'ramadan')">🌙 Ramadhan<br><small>Golden Night</small></div>
+        <div class="theme-option th-white" onclick="setTheme(this,'white')">⚪ Putih<br><small>Clean Light</small></div>
+      </div>
+      <div class="card-section" style="margin-top:1.5rem; max-width:400px;">
+        <div class="card-section-title">Preview Aktif</div>
+        <div id="themePreview" style="font-size:0.85rem; color:var(--text-secondary);">Tema saat ini: <strong style="color:var(--neon-blue);">Gelap (Dark Neon)</strong></div>
+      </div>
+    </div>
+
+    <!-- NOTIF -->
+    <div class="admin-panel" id="admin-notif">
+      <div class="orbitron" style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">Kirim Notifikasi</div>
+      <div class="card-section" style="max-width:480px;">
+        <div class="form-group">
+          <label class="form-label">Judul Notifikasi</label>
+          <input class="form-input" id="notifTitle" placeholder="Pengumuman penting..." type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pesan</label>
+          <textarea class="form-input" id="notifMsg" placeholder="Tulis pesan di sini..." rows="4" style="resize:vertical;"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tipe</label>
+          <select class="form-input" id="notifType">
+            <option value="info">Info (Biru)</option>
+            <option value="success">Sukses (Hijau)</option>
+            <option value="error">Peringatan (Merah)</option>
+          </select>
+        </div>
+        <button class="btn-form" style="padding:0.65rem;" onclick="sendAdminNotif()">Kirim Notifikasi</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const teams = [
+  {id:'NEXUS1', name:'Shadow Wolves', captain:'Alex Ranger', phone:'081234567890', ig:'@alexranger_id', gmail:'alex@gmail.com', level:'silver', wins:5, matches:7, pass:'****'},
+  {id:'NEXUS2', name:'Iron Claws', captain:'Budi Santoso', phone:'082345678901', ig:'@budi_iron', gmail:'budi@gmail.com', level:'gold', wins:8, matches:10, pass:'****'},
+  {id:'NEXUS3', name:'Red Phoenix', captain:'Citra Dewi', phone:'083456789012', ig:'@citrafenix', gmail:'citra@gmail.com', level:'gold', wins:9, matches:11, pass:'****'},
+  {id:'NEXUS4', name:'Ghost Unit', captain:'Dodi Prasetyo', phone:'084567890123', ig:'@ghostunit', gmail:'dodi@gmail.com', level:'bronze', wins:3, matches:7, pass:'****'},
+  {id:'NEXUS5', name:'Storm Riders', captain:'Eka Putra', phone:'085678901234', ig:'@stormriders', gmail:'eka@gmail.com', level:'silver', wins:6, matches:9, pass:'****'},
+  {id:'NEXUS6', name:'Cyber Wolves', captain:'Fandi Ahmad', phone:'086789012345', ig:'@fandicw', gmail:'fandi@gmail.com', level:'gold', wins:10, matches:12, pass:'****'},
+  {id:'NEXUS7', name:'Dark Phantom', captain:'Gilang Rizky', phone:'087890123456', ig:'@gilangdp', gmail:'gilang@gmail.com', level:'silver', wins:5, matches:8, pass:'****'},
+  {id:'NEXUS8', name:'Neon Vipers', captain:'Hendra Wijaya', phone:'088901234567', ig:'@hendranv', gmail:'hendra@gmail.com', level:'bronze', wins:2, matches:6, pass:'****'},
+  {id:'NEXUS9', name:'Dark Matter', captain:'Irwan Baskoro', phone:'089012345678', ig:'@irwandm', gmail:'irwan@gmail.com', level:'bronze', wins:4, matches:8, pass:'****'},
+  {id:'NEXUSA', name:'Void Strike', captain:'Joko Susilo', phone:'081123456789', ig:'@jokoys', gmail:'joko@gmail.com', level:'silver', wins:7, matches:10, pass:'****'},
+  {id:'NEXUSB', name:'Blaze Force', captain:'Kevin Halim', phone:'082234567890', ig:'@kevinbf', gmail:'kevin@gmail.com', level:'silver', wins:6, matches:9, pass:'****'},
+  {id:'NEXUSC', name:'Apex Legends', captain:'Lia Rahayu', phone:'083345678901', ig:'@liaapex', gmail:'lia@gmail.com', level:'bronze', wins:3, matches:7, pass:'****'},
+];
+
+const matches = [
+  {id:'M001', teamA:'Shadow Wolves', teamB:'Iron Claws', result:'pending'},
+  {id:'M002', teamA:'Red Phoenix', teamB:'Ghost Unit', result:'A'},
+  {id:'M003', teamA:'Storm Riders', teamB:'Cyber Wolves', result:'B'},
+  {id:'M004', teamA:'Dark Phantom', teamB:'Neon Vipers', result:'A'},
+  {id:'M005', teamA:'Dark Matter', teamB:'Void Strike', result:'B'},
+];
+
+const payments = [
+  {team:'Shadow Wolves', amount:'Rp 50.000', method:'Manual', status:'pending'},
+  {team:'Iron Claws', amount:'Rp 50.000', method:'Sakurupiah', status:'success'},
+  {team:'Red Phoenix', amount:'Rp 50.000', method:'Manual', status:'success'},
+  {team:'Ghost Unit', amount:'Rp 50.000', method:'Manual', status:'pending'},
+  {team:'Storm Riders', amount:'Rp 50.000', method:'Sakurupiah', status:'failed'},
+];
+
+let currentUser = null;
+let chartInst = null;
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+  if(page === 'admin') { initAdminChart(); populateAdmin(); }
+  if(page === 'dashboard') populateDashboard();
+}
+
+function scrollSection(id) {
+  showPage('landing');
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  }, 100);
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab)?.classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const tabMap = {overview:0, history:1, payment:2, profile:3};
+  if(tabs[tabMap[tab]]) tabs[tabMap[tab]].classList.add('active');
+}
+
+function showAdminPanel(panel) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-menu-item').forEach(m => m.classList.remove('active'));
+  document.getElementById('admin-' + panel)?.classList.add('active');
+  const items = document.querySelectorAll('.admin-menu-item');
+  const panelMap = {overview:0, users:1, payment:2, match:3, level:4, theme:5, notif:6};
+  if(items[panelMap[panel]]) items[panelMap[panel]].classList.add('active');
+  if(panel === 'overview') initAdminChart();
+}
+
+function showToast(msg, type='info') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function generateId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let r = '';
+  for(let i=0;i<6;i++) r += chars[Math.floor(Math.random()*chars.length)];
+  return r;
+}
+
+function doRegister() {
+  const team = document.getElementById('regTeam').value.trim();
+  const captain = document.getElementById('regCaptain').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pass = document.getElementById('regPass').value;
+  if(!team || !captain || !phone || !pass) { showToast('Semua field wajib diisi!','error'); return; }
+  if(pass.length < 6) { showToast('Password minimal 6 karakter!','error'); return; }
+  const newId = generateId();
+  currentUser = {id: 'NEXUS'+newId, name: team, captain, phone, level:'bronze'};
+  document.getElementById('generatedId').textContent = 'NEXUS' + newId;
+  showToast('Pendaftaran berhasil! Selamat bergabung, ' + team + '!', 'success');
+  showPage('reg-success');
+}
+
+function doLogin() {
+  const id = document.getElementById('loginId').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if(!id || !pass) { showToast('Isi semua field!','error'); return; }
+  currentUser = teams[0];
+  showToast('Login berhasil! Selamat datang, ' + teams[0].name + '!', 'success');
+  showPage('dashboard');
+}
+
+function doLogout() {
+  currentUser = null;
+  showToast('Logout berhasil. Sampai jumpa!');
+  showPage('landing');
+}
+
+function populateDashboard() {
+  const u = currentUser || teams[0];
+  document.getElementById('userName').textContent = u.name;
+  document.getElementById('userCaptain').textContent = 'Kapten: ' + u.captain;
+  document.getElementById('userId').textContent = 'ID: ' + u.id;
+  const initials = u.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('userAvatar').childNodes[0].textContent = initials;
+  const lvl = u.level || 'bronze';
+  const lvlEl = document.getElementById('userLevel');
+  lvlEl.textContent = lvl === 'gold' ? '🥇 GOLD' : lvl === 'silver' ? '🥈 SILVER' : '🥉 BRONZE';
+  lvlEl.className = 'level-badge level-' + lvl;
+}
+
+function saveProfile() {
+  showToast('Profil berhasil diperbarui!','success');
+}
+
+function doPayment() {
+  showToast('Pembayaran dikonfirmasi! Menunggu verifikasi admin.','success');
+}
+
+function selectPayMethod(btn, method) {
+  document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const info = document.getElementById('payInfo');
+  if(method === 'Manual Transfer') {
+    info.innerHTML = 'Transfer ke: <strong>BCA 1234567890</strong><br>a.n NEXUS ESPORTS INDONESIA<br>Wajib upload bukti transfer';
+  } else {
+    info.innerHTML = 'Redirect ke <strong>Sakurupiah Gateway</strong><br>Pembayaran otomatis & instan<br>Dukung: QRIS, GoPay, OVO, Dana';
+  }
+}
+
+function exportPDF() { showToast('Mengunduh data user sebagai PDF...','success'); }
+
+function populateAdmin() {
+  const tbody = document.getElementById('adminUserTable');
+  if(tbody) tbody.innerHTML = teams.map(t => `
+    <tr>
+      <td style="font-family:'Orbitron',monospace; font-size:0.75rem; color:var(--neon-blue);">${t.id}</td>
+      <td>${t.name}</td>
+      <td>${t.captain}</td>
+      <td>${t.phone}</td>
+      <td style="color:var(--text-secondary);">${t.ig}</td>
+      <td><span class="badge-level lv-${t.level}">${t.level.toUpperCase()}</span></td>
+      <td><span class="status-badge s-success">ACTIVE</span></td>
+    </tr>
+  `).join('');
+
+  const ptbody = document.getElementById('adminPayTable');
+  if(ptbody) ptbody.innerHTML = payments.map(p => `
+    <tr>
+      <td>${p.team}</td>
+      <td>${p.amount}</td>
+      <td>${p.method}</td>
+      <td><span class="status-badge s-${p.status}">${p.status.toUpperCase()}</span></td>
+      <td>
+        ${p.status === 'pending' ?
+          `<button class="btn-outline" style="font-size:0.72rem;padding:0.2rem 0.6rem;" onclick="verifyPay('${p.team}')">Verifikasi</button>` :
+          '—'
+        }
+      </td>
+    </tr>
+  `).join('');
+
+  const mtbody = document.getElementById('adminMatchTable');
+  if(mtbody) mtbody.innerHTML = matches.map(m => `
+    <tr>
+      <td style="font-family:'Orbitron',monospace; font-size:0.75rem; color:var(--neon-blue);">${m.id}</td>
+      <td>${m.teamA}</td>
+      <td>${m.teamB}</td>
+      <td>
+        <button class="btn-outline" style="font-size:0.72rem;padding:0.2rem 0.5rem;margin-right:4px;" onclick="setMatch('${m.id}','A','${m.teamA}')">Win A</button>
+        <button class="btn-outline" style="font-size:0.72rem;padding:0.2rem 0.5rem;" onclick="setMatch('${m.id}','B','${m.teamB}')">Win B</button>
+      </td>
+    </tr>
+  `).join('');
+
+  const ltbody = document.getElementById('adminLevelTable');
+  if(ltbody) ltbody.innerHTML = teams.map(t => `
+    <tr>
+      <td>${t.name}</td>
+      <td><span class="badge-level lv-${t.level}">${t.level.toUpperCase()}</span></td>
+      <td>
+        <select onchange="changeLevel('${t.id}',this.value)" style="background:#0a0a1a; border:1px solid rgba(0,212,255,0.2); color:var(--text-primary); padding:0.3rem 0.5rem; border-radius:4px; font-size:0.8rem;">
+          <option value="bronze" ${t.level==='bronze'?'selected':''}>Bronze</option>
+          <option value="silver" ${t.level==='silver'?'selected':''}>Silver</option>
+          <option value="gold" ${t.level==='gold'?'selected':''}>Gold</option>
+        </select>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function verifyPay(team) { showToast(`Pembayaran ${team} diverifikasi!`, 'success'); }
+function setMatch(id, winner, name) { showToast(`Match ${id}: ${name} ditetapkan sebagai WINNER!`, 'success'); }
+function changeLevel(id, level) { showToast(`Level tim berhasil diubah ke ${level.toUpperCase()}!`, 'success'); }
+
+function setTheme(el, theme) {
+  document.querySelectorAll('.theme-option').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  const names = {dark:'Gelap (Dark Neon)', purple:'Ungu (Purple Storm)', snow:'Salju (Winter Ice)', ramadan:'Ramadhan (Golden Night)', white:'Putih (Clean Light)'};
+  document.getElementById('themePreview').innerHTML = `Tema saat ini: <strong style="color:var(--neon-blue);">${names[theme]}</strong>`;
+  showToast(`Tema diubah ke: ${names[theme]}`, 'success');
+}
+
+function sendAdminNotif() {
+  const title = document.getElementById('notifTitle').value.trim();
+  const type = document.getElementById('notifType').value;
+  if(!title) { showToast('Isi judul notifikasi!', 'error'); return; }
+  showToast('📢 ' + title, type);
+  document.getElementById('notifTitle').value = '';
+  document.getElementById('notifMsg').value = '';
+}
+
+function initAdminChart() {
+  const canvas = document.getElementById('adminChart');
+  if(!canvas) return;
+  if(chartInst) { chartInst.destroy(); chartInst = null; }
+  chartInst = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: ['Wolves','Iron','Phoenix','Ghost','Storm','Cyber'],
+      datasets: [{
+        label: 'Win Rate %',
+        data: [71, 80, 82, 43, 67, 83],
+        backgroundColor: 'rgba(0,212,255,0.2)',
+        borderColor: '#00d4ff',
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: { legend: { display:false } },
+      scales: {
+        x: { ticks: { color:'rgba(200,220,255,0.5)', font:{size:10} }, grid: { color:'rgba(0,212,255,0.05)' } },
+        y: { ticks: { color:'rgba(200,220,255,0.5)', font:{size:10} }, grid: { color:'rgba(0,212,255,0.05)' }, max:100 }
+      }
+    }
+  });
+}
+
+function renderLanding() {
+  const sorted = [...teams].sort((a,b) => (b.wins/b.matches) - (a.wins/a.matches));
+  const grid = document.getElementById('teamsGrid');
+  if(grid) grid.innerHTML = teams.map(t => {
+    const init = t.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    return `<div class="team-card">
+      <div class="team-avatar">${init}</div>
+      <div class="team-info">
+        <div class="name">${t.name}</div>
+        <div class="detail">Kapten: ${t.captain}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const rankColors = ['rank-1','rank-2','rank-3'];
+  const lvlMap = {gold:'lv-gold',silver:'lv-silver',bronze:'lv-bronze'};
+  const lbBody = document.getElementById('lbBody');
+  if(lbBody) lbBody.innerHTML = sorted.slice(0,10).map((t,i) => {
+    const wr = Math.round((t.wins/t.matches)*100);
+    const rankClass = rankColors[i] || 'rank-n';
+    return `<tr>
+      <td class="${rankClass}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+      <td style="font-weight:600;">${t.name}</td>
+      <td><span class="badge-level ${lvlMap[t.level]}">${t.level.toUpperCase()}</span></td>
+      <td style="color:var(--neon-blue); font-family:'Orbitron',monospace;">${wr}%</td>
+      <td>${t.wins}</td>
+    </tr>`;
+  }).join('');
+}
+
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('clock');
+  if(el) el.textContent = h + ':' + m + ':' + s;
+}
+
+renderLanding();
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+</body>
+</html>
